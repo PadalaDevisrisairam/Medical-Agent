@@ -16,7 +16,11 @@ class RequestBody(BaseModel):
 def medical_agent(body:RequestBody):
     is_emergency,symptom = check_red_flags(body.message)
     if(is_emergency):
-        return {"response":"Emergency! Go to hospical immediately"}
+        return {
+            "severity":"Emergency",
+            "response":"Emergency! Go to hospical immediately",
+            "disclaimer":"This AI cannot give medical advice for emergency cases"
+            }
     severity=classify_severity(body.message)
     prompt=f"""  You are a medical triage assistant.
     Provide general health guidance only.
@@ -26,6 +30,10 @@ def medical_agent(body:RequestBody):
     patient message : {body.message}
     """
     response=model.generate_content(prompt)
-    return response.text
+    return {
+        "severity":severity,
+        "response":response.text,
+        "disclaimer":"This AI provides general information only and is not a medical professional."
+    }
 
       
