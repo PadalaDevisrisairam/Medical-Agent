@@ -1,11 +1,24 @@
+severity_scores={
+    "fever" : 2,
+    "cough" : 2,
+    "headache" : 2,
+    "back pain" : 3,
+    "vomiting" : 3,
+    "diarrhea" : 4,
+    "motions" : 4
+}
 
-def classify_severity(symptoms_text):
-    text=symptoms_text.lower()
-    if "severe" in text or "very painful" in text :
+def severity_score(symptoms_text):
+    score=0
+    for symptom,score in severity_scores.items():
+        if symptom in symptoms_text.lower():
+            score+=score
+    return score
+def classify_severity(score):
+    if(score > 10):
         return "High"
-    elif "Moderate" in text:
+    elif(score>5):
         return "Moderate"
-    elif "mild" in text or "slight" in text:
-        return "Low"
     else:
-        return "Unknown"
+        return "Low"
+   
