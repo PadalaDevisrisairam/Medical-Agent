@@ -28,3 +28,4 @@ def medical_agent(body:RequestBody):
     response=model.generate_content(prompt)
     return response.text
 
+      
